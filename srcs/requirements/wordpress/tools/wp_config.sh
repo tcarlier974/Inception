@@ -1,17 +1,16 @@
 #!/bin/sh
 
 # On attend que MariaDB soit prêt avant de lancer l'installation
-while ! mysqladmin ping -h"mariadb" --silent; do
+while ! mariadb-admin ping -h"mariadb" -u"${SQL_USER}" -p"${SQL_PASSWORD}" --silent; do
     sleep 1
 done
-
 # Si le fichier wp-config.php n'existe pas, c'est qu'on n'a pas encore installé WordPress
 if [ ! -f "/var/www/html/wp-config.php" ]; then
     echo "Installation de WordPress en cours..."
     
     # 1. Télécharger les fichiers de WordPress
     # 1. Télécharger les fichiers de WordPress avec plus de RAM
-    php81 -d memory_limit=512M /usr/local/bin/wp core download --allow-root
+    php82 -d memory_limit=512M /usr/local/bin/wp core download --allow-root
 
     # 2. Créer le fichier de configuration relié à la base de données
     wp config create --dbname="${SQL_DATABASE}" \
@@ -39,4 +38,4 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 fi
 
 # On lance PHP-FPM au premier plan pour maintenir le conteneur en vie
-exec /usr/sbin/php-fpm81 -F
+exec /usr/sbin/php-fpm82 -F

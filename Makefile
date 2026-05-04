@@ -1,7 +1,5 @@
-# Nom du projet
 NAME = inception
 
-# Commandes
 all:
 	@printf "Lancement de l'infrastructure ${NAME}...\n"
 	@docker-compose -f srcs/docker-compose.yml up -d --build

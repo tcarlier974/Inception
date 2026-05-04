@@ -1,5 +1,5 @@
 # On part d'une version stable d'Alpine
-FROM alpine:3.18
+FROM alpine:3.22
 
 # On utilise apk pour installer mariadb et son client
 RUN apk update && apk add --no-cache mariadb mariadb-client
